@@ -13,6 +13,10 @@ open Ast
 %token MINUS
 %token TIMES
 %token DIVIDED_BY
+%token PLUS_FLOAT
+%token MINUS_FLOAT
+%token TIMES_FLOAT
+%token DIVIDED_BY_FLOAT
 %token LPAREN
 %token RPAREN
 %token LET
@@ -30,8 +34,9 @@ open Ast
 %nonassoc IN
 %nonassoc ELSE
 %left LEQ
-%left PLUS MINUS
-%left TIMES DIVIDED_BY
+%left GEQ
+%left PLUS MINUS PLUS_FLOAT MINUS_FLOAT
+%left TIMES DIVIDED_BY TIMES_FLOAT DIVIDED_BY_FLOAT
 
 %start <Ast.expr> prog
 
@@ -53,6 +58,10 @@ expr:
     | e1 = expr; MINUS; e2 = expr { Binop (Sub, e1, e2) }
     | e1 = expr; TIMES; e2 = expr { Binop (Mult, e1, e2) }
     | e1 = expr; DIVIDED_BY; e2 = expr { Binop (Div, e1, e2) }
+    | e1 = expr; PLUS_FLOAT; e2 = expr { Binop (Addf, e1, e2) }
+    | e1 = expr; MINUS_FLOAT; e2 = expr { Binop (Subf, e1, e2) }
+    | e1 = expr; TIMES_FLOAT; e2 = expr { Binop (Multf, e1, e2) }
+    | e1 = expr; DIVIDED_BY_FLOAT; e2 = expr { Binop (Divf, e1, e2) }
   	| LET; x = ID; COLON; t = typ; EQUALS; e1 = expr; IN; e2 = expr
 		{ Let (x, t, e1, e2) }
   	| IF; e1 = expr; THEN; e2 = expr; ELSE; e3 = expr { If (e1, e2, e3) }

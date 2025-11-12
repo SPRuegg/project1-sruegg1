@@ -91,6 +91,14 @@ and typeof_bop env bop e1 e2 =
   | Div, TInt, TInt -> TInt
   | Leq, TInt, TInt
   | Geq, TInt, TInt -> TBool
+
+  | Addf, TFloat, TFloat
+  | Subf, TFloat, TFloat
+  | Multf, TFloat, TFloat
+  | Divf, TFloat, TFloat -> TFloat
+  | Leq, TFloat, TFloat
+  | Geq, TFloat, TFloat -> TBool
+
   | _ -> failwith bop_err
 
 (** Helper function for [typeof]. *)
@@ -148,6 +156,14 @@ and eval_bop bop e1 e2 =
   | Div, Int a, Int b -> Int (a / b)
   | Leq , Int a, Int b -> Bool (a <= b)
   | Geq , Int a, Int b -> Bool (a >= b)
+
+  | Addf, Float a, Float b -> Float (round_dfrac 2 (a +. b))
+  | Subf, Float a, Float b -> Float (round_dfrac 2 (a -. b))
+  | Multf, Float a, Float b -> Float (round_dfrac 2 (a *. b))
+  | Divf, Float a, Float b -> Float (round_dfrac 2 (a /. b))
+  | Leq , Float a, Float b -> Bool (a <= b)
+  | Geq , Float a, Float b -> Bool (a >= b)
+
   | _ -> failwith bop_err
 
 (** [eval_if e1 e2 e3] is the [v] such that [if e1 then e2 ==> v]. *)

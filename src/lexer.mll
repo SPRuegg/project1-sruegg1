@@ -18,8 +18,12 @@ rule read =
   | ">=" { GEQ }
   | "+" { PLUS }
   | "-" { MINUS }
-  | "/" { DIVIDED_BY }
   | "*" { TIMES }
+  | "/" { DIVIDED_BY }
+  | "+." { PLUS_FLOAT }
+  | "-." { MINUS_FLOAT }
+  | "*." { TIMES_FLOAT }
+  | "/." { DIVIDED_BY_FLOAT }
   | "(" { LPAREN }
   | ")" { RPAREN }
   | "let" { LET }

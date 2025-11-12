@@ -5,10 +5,15 @@ type bop =
   | Div
   | Leq
   | Geq
+  | Addf
+  | Subf
+  | Multf
+  | Divf
 
 (** [typ] represents the type of an expression. *)
 type typ =
   | TInt
+  | TFloat
   | TBool
 
 type expr =
