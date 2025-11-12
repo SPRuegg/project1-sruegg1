@@ -8,6 +8,7 @@ open Ast
 %token TRUE
 %token FALSE
 %token LEQ
+%token GEQ
 %token PLUS
 %token MINUS
 %token TIMES
@@ -47,6 +48,7 @@ expr:
   	| TRUE { Bool true }
   	| FALSE { Bool false }
   	| e1 = expr; LEQ; e2 = expr { Binop (Leq, e1, e2) }
+    | e1 = expr; GEQ; e2 = expr { Binop (Geq, e1, e2) }
   	| e1 = expr; PLUS; e2 = expr { Binop (Add, e1, e2) }
     | e1 = expr; MINUS; e2 = expr { Binop (Sub, e1, e2) }
     | e1 = expr; TIMES; e2 = expr { Binop (Mult, e1, e2) }

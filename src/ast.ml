@@ -4,6 +4,7 @@ type bop =
   | Mult
   | Div
   | Leq
+  | Geq
 
 (** [typ] represents the type of an expression. *)
 type typ =

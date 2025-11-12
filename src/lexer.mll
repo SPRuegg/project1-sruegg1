@@ -15,6 +15,7 @@ rule read =
   | "true" { TRUE }
   | "false" { FALSE }
   | "<=" { LEQ }
+  | ">=" { GEQ }
   | "+" { PLUS }
   | "-" { MINUS }
   | "/" { DIVIDED_BY }

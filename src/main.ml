@@ -89,7 +89,8 @@ and typeof_bop env bop e1 e2 =
   | Sub, TInt, TInt
   | Mult, TInt, TInt
   | Div, TInt, TInt -> TInt
-  | Leq, TInt, TInt -> TBool
+  | Leq, TInt, TInt
+  | Geq, TInt, TInt -> TBool
   | _ -> failwith bop_err
 
 (** Helper function for [typeof]. *)
@@ -146,6 +147,7 @@ and eval_bop bop e1 e2 =
   | Mult, Int a, Int b -> Int (a * b)
   | Div, Int a, Int b -> Int (a / b)
   | Leq , Int a, Int b -> Bool (a <= b)
+  | Geq , Int a, Int b -> Bool (a >= b)
   | _ -> failwith bop_err
 
 (** [eval_if e1 e2 e3] is the [v] such that [if e1 then e2 ==> v]. *)
