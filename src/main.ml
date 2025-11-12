@@ -61,7 +61,7 @@ let round_dfrac d x =
   let m = 10. ** (float d) in                       (* m moves 10^-d to 1. *)
   (floor ((x *. m) +. 0.5)) /. m
 
-(** [typeof env e] is the type of [e] in context [env]. 
+(** [typeof env e] is the type of [e] in context [env].
     Raises: [Failure] if [e] is not well typed in [env]. *)
 let rec typeof env = function
   | Int _ -> TInt
@@ -71,36 +71,37 @@ let rec typeof env = function
   | Binop (bop, e1, e2) -> typeof_bop env bop e1 e2
   | If (e1, e2, e3) -> typeof_if env e1 e2 e3
   | _ -> failwith "TODO"
-  
+
 (** Helper function for [typeof]. *)
-and typeof_let env x t e1 e2 = 
+and typeof_let env x t e1 e2 =
   let t' = typeof env e1 in
   if t = t' then
-    let env' = extend env x t' in 
+    let env' = extend env x t' in
     typeof env' e2
-  else 
+  else
       failwith annotation_err
-  
+
 (** Helper function for [typeof]. *)
 and typeof_bop env bop e1 e2 =
   let t1, t2 = typeof env e1, typeof env e2 in
   match bop, t1, t2 with
-  | Add, TInt, TInt 
+  | Add, TInt, TInt
+  | Sub, TInt, TInt
   | Mult, TInt, TInt -> TInt
   | Leq, TInt, TInt -> TBool
   | _ -> failwith bop_err
-  
+
 (** Helper function for [typeof]. *)
 and typeof_if env e1 e2 e3 =
-  let t1 = typeof env e1 in 
+  let t1 = typeof env e1 in
   if t1 <> TBool then
     failwith if_guard_err
   else
     let t2 = typeof env e2 in
     let t3 = typeof env e3 in
-    if t2 <> t3 then 
+    if t2 <> t3 then
       failwith if_branch_err
-    else 
+    else
       t2
 
 (** [typecheck e] checks whether [e] is well typed in
@@ -120,10 +121,10 @@ let rec subst e v x = match e with
     if x = y
     then Let (y, t, e1', e2)
     else Let (y, t, e1', subst e2 v x)
-  | If (e1, e2, e3) -> 
+  | If (e1, e2, e3) ->
     If (subst e1 v x, subst e2 v x, subst e3 v x)
   | _ -> failwith "TODO"
-  
+
 (** [eval e] the [v]such that [e ==> v]. *)
 let rec eval (e : expr) : expr = match e with
   | Int _ | Bool _ -> e
@@ -133,23 +134,24 @@ let rec eval (e : expr) : expr = match e with
   | If (e1, e2, e3) -> eval_if e1 e2 e3
   | _ -> failwith "TODO"
 
-(** [eval_let x e1 e2] is the [v] such that [let x = e1 in e2 ==> v]. *) 
-and eval_let x e1 e2 = 
-  let v1 = eval e1 in 
-  let e2' = subst e2 v1 x in 
+(** [eval_let x e1 e2] is the [v] such that [let x = e1 in e2 ==> v]. *)
+and eval_let x e1 e2 =
+  let v1 = eval e1 in
+  let e2' = subst e2 v1 x in
   eval e2'
 
-(** [eval_bop bop e1 e2] is the [v] such that [e1 bop e2 ==> v]. *) 
-and eval_bop bop e1 e2 = 
+(** [eval_bop bop e1 e2] is the [v] such that [e1 bop e2 ==> v]. *)
+and eval_bop bop e1 e2 =
   match bop, eval e1, eval e2 with
   | Add, Int a, Int b -> Int (a + b)
+  | Sub, Int a, Int b -> Int (a - b)
   | Mult, Int a, Int b -> Int (a * b)
   | Leq , Int a, Int b -> Bool (a <= b)
   | _ -> failwith bop_err
 
-(** [eval_if e1 e2 e3] is the [v] such that [if e1 then e2 ==> v]. *) 
-and eval_if e1 e2 e3 = 
-  match eval e1 with 
+(** [eval_if e1 e2 e3] is the [v] such that [if e1 then e2 ==> v]. *)
+and eval_if e1 e2 e3 =
+  match eval e1 with
   | Bool true -> eval e2
   | Bool false -> eval e3
   | _ -> failwith if_guard_err

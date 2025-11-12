@@ -1,5 +1,6 @@
-type bop = 
+type bop =
   | Add
+  | Sub
   | Mult
   | Leq
 
@@ -8,7 +9,7 @@ type typ =
   | TInt
   | TBool
 
-type expr = 
+type expr =
 | Var of string
 | Int of int
 | Bool of bool

@@ -8,14 +8,15 @@ let int = '-'? digit+
 let letter = ['a'-'z' 'A'-'Z']
 let id = letter+
 
-rule read = 
+rule read =
   parse
   | white { read lexbuf }
   | "true" { TRUE }
   | "false" { FALSE }
   | "<=" { LEQ }
-  | "*" { TIMES }
   | "+" { PLUS }
+  | "-" { MINUS }
+  | "*" { TIMES }
   | "(" { LPAREN }
   | ")" { RPAREN }
   | "let" { LET }
