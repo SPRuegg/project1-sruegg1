@@ -3,6 +3,7 @@ open Ast
 %}
 
 %token <int> INT
+%token <float> FLOAT
 %token <string> ID
 %token TRUE
 %token FALSE
@@ -22,6 +23,7 @@ open Ast
 %token COLON
 %token INT_TYPE
 %token BOOL_TYPE
+%token FLOAT_TYPE
 %token EOF
 
 %nonassoc IN
@@ -40,6 +42,7 @@ prog:
 
 expr:
 	  | i = INT { Int i }
+		| f = FLOAT { Float f }
   	| x = ID { Var x }
   	| TRUE { Bool true }
   	| FALSE { Bool false }
@@ -56,4 +59,5 @@ expr:
 
 typ:
 	| INT_TYPE { TInt }
+	| FLOAT_TYPE { TFloat }
 	| BOOL_TYPE { TBool }
