@@ -10,6 +10,7 @@ open Ast
 %token PLUS
 %token MINUS
 %token TIMES
+%token DIVIDED_BY
 %token LPAREN
 %token RPAREN
 %token LET
@@ -27,7 +28,7 @@ open Ast
 %nonassoc ELSE
 %left LEQ
 %left PLUS MINUS
-%left TIMES
+%left TIMES DIVIDED_BY
 
 %start <Ast.expr> prog
 
@@ -46,6 +47,7 @@ expr:
   	| e1 = expr; PLUS; e2 = expr { Binop (Add, e1, e2) }
     | e1 = expr; MINUS; e2 = expr { Binop (Sub, e1, e2) }
     | e1 = expr; TIMES; e2 = expr { Binop (Mult, e1, e2) }
+    | e1 = expr; DIVIDED_BY; e2 = expr { Binop (Div, e1, e2) }
   	| LET; x = ID; COLON; t = typ; EQUALS; e1 = expr; IN; e2 = expr
 		{ Let (x, t, e1, e2) }
   	| IF; e1 = expr; THEN; e2 = expr; ELSE; e3 = expr { If (e1, e2, e3) }

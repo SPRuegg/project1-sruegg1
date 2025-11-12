@@ -2,6 +2,7 @@ type bop =
   | Add
   | Sub
   | Mult
+  | Div
   | Leq
 
 (** [typ] represents the type of an expression. *)

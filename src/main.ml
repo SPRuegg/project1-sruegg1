@@ -87,7 +87,8 @@ and typeof_bop env bop e1 e2 =
   match bop, t1, t2 with
   | Add, TInt, TInt
   | Sub, TInt, TInt
-  | Mult, TInt, TInt -> TInt
+  | Mult, TInt, TInt
+  | Div, TInt, TInt -> TInt
   | Leq, TInt, TInt -> TBool
   | _ -> failwith bop_err
 
@@ -146,6 +147,7 @@ and eval_bop bop e1 e2 =
   | Add, Int a, Int b -> Int (a + b)
   | Sub, Int a, Int b -> Int (a - b)
   | Mult, Int a, Int b -> Int (a * b)
+  | Div, Int a, Int b -> Int (a / b)
   | Leq , Int a, Int b -> Bool (a <= b)
   | _ -> failwith bop_err
 

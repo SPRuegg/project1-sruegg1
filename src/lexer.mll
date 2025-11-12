@@ -16,6 +16,7 @@ rule read =
   | "<=" { LEQ }
   | "+" { PLUS }
   | "-" { MINUS }
+  | "/" { DIVIDED_BY }
   | "*" { TIMES }
   | "(" { LPAREN }
   | ")" { RPAREN }
