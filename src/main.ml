@@ -131,7 +131,6 @@ let rec eval (e : expr) : expr = match e with
   | Binop (bop, e1, e2) -> eval_bop bop e1 e2
   | Let (x, _, e1, e2) -> subst e2 (eval e1) x|> eval
   | If (e1, e2, e3) -> eval_if e1 e2 e3
-  | _ -> failwith "TODO"
 
 (** [eval_let x e1 e2] is the [v] such that [let x = e1 in e2 ==> v]. *)
 and eval_let x e1 e2 =
